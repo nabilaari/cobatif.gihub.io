@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Ortofoto Pantai Bandengan</title>
+    <title>maindam1</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -29,7 +29,7 @@
     <script>
       // 1. Inisialisasi Peta
       var map = L.map("map").setView(
-        [-6.557442224022826, 110.65210204222706],
+        [-4.51882098638124, 103.89661300019357],
         16
       );
 
@@ -44,10 +44,14 @@
       );
 
       // 3. Definisikan Layer Tiles Lokal
-      var myLocalTiles = L.tileLayer("https://nabilaari.github.io/cobatif_22/DATA/{z}/{x}/{y}.png", {
-        maxZoom: 20,
-        attribution: "Created by QGIS",
-      });
+      var myLocalTiles = L.tileLayer(
+        "https://nabilaari.github.io/cobatif_22/DATA/{z}/{x}/{y}.png",
+        {maxZoom: 19,
+         minZoom: 15,
+         attribution: "Ortofoto Bandengan",
+        }
+      );
+
 
       // 4. Tambahkan OSM ke peta secara default (agar tidak kosong saat dibuka)
       osmLayer.addTo(map);
@@ -74,6 +78,7 @@
     </script>
   </body>
 </html>
+
 
 
 
