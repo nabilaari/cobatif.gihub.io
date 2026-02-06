@@ -1,84 +1,70 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>maindam1</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Proj4 + Proj4Leaflet -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.9.0/proj4.js"></script>
+<script src="https://unpkg.com/proj4leaflet@1.0.2/src/proj4leaflet.js"></script>
 
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    />
+<script>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  // =========================
+  // CRS UTM WGS84 ZONA 48S
+  // =========================
+  var crs = new L.Proj.CRS(
+    "EPSG:32748",
+    "+proj=utm +zone=48 +south +datum=WGS84 +units=m +no_defs",
+    {
+      origin: [166021.44, 10000000.0],
+      resolutions: [
+        4891.96981025128,
+        2445.98490512564,
+        1222.99245256282,
+        611.49622628141,
+        305.748113140705,
+        152.8740565703525,
+        76.43702828517625,
+        38.21851414258813,
+        19.109257071294063,
+        9.554628535647032,
+        4.777314267823516,
+        2.388657133911758,
+        1.194328566955879,
+        0.5971642834779395,
+        0.29858214173896974,
+        0.14929107086948487,
+        0.07464553543474244
+      ]
+    }
+  );
 
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
-      #map {
-        height: 100vh;
-        width: 100%;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="map"></div>
-
-    <script>
-      // 1. Inisialisasi Peta
-      var map = L.map("map").setView(
-        [-4.51882098638124, 103.89661300019357],
-        16
-      );
-
-      // 2. Definisikan Layer OpenStreetMap (OSM)
-      var osmLayer = L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {
-          maxZoom: 20,
-          attribution:
-            '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        }
-      );
-
-      // 3. Definisikan Layer Tiles Lokal
-      var myLocalTiles = L.tileLayer(
-        "https://nabilaari.github.io/cobatif_22/DATA/{z}/{x}/{y}.png",
-        {maxZoom: 19,
-         minZoom: 15,
-         attribution: "Ortofoto Bandengan",
-        }
-      );
+  // =========================
+  // INISIALISASI MAP (UTM)
+  // =========================
+  var map = L.map("map", {
+    crs: crs,
+    minZoom: 15,
+    maxZoom: 19
+  }).setView([-4.51882098638124, 103.89661300019357], 16);
 
 
-      // 4. Tambahkan OSM ke peta secara default (agar tidak kosong saat dibuka)
-      osmLayer.addTo(map);
-      myLocalTiles.addTo(map);
-
-      // 5. Buat Layer Control (Tombol ganti layer di pojok kanan atas)
-      var baseMaps = {
-        OpenStreetMap: osmLayer,
-      };
-
-      var overlayMaps = {
-        "Data Ortho": myLocalTiles,
-      };
-
-      // Tambahkan kontrol ke peta
-      L.control.layers(baseMaps, overlayMaps).addTo(map);
-      // 6. Scale Bar
-       L.control.scale({
-        position: "bottomright",
-        metric: true,
-        imperial: false,
-        maxWidth: 150
-      }).addTo(map);
-    </script>
-  </body>
-</html>
+  // =========================
+  // TILE ORTHO (UTM)
+  // =========================
+  var myLocalTiles = L.tileLayer(
+    "https://nabilaari.github.io/cobatif_22/DATA/{z}/{x}/{y}.png",
+    {
+      minZoom: 15,
+      maxZoom: 19,
+      attribution: "Ortofoto (UTM 48S)"
+    }
+  ).addTo(map);
 
 
+  // =========================
+  // SCALE BAR
+  // =========================
+  L.control.scale({
+    position: "bottomright",
+    metric: true,
+    imperial: false,
+    maxWidth: 150
+  }).addTo(map);
 
-
+</script>
